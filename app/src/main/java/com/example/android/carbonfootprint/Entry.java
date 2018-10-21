@@ -5,41 +5,48 @@ import java.util.Date;
 import java.sql.Timestamp;
 public class Entry implements  Comparable{
     private String name;
-    private int code;
-    private Date date = new Date();
     private double weight;
-    private double emmision;
-    private long time = date.getTime();
-    private Timestamp ts = new Timestamp(time);
+    private double emmission;
+    private Timestamp ts;
 
+
+    public void entry(String name, double weight, double emmission){
+        Date date = new Date();
+        long time = date.getTime();
+        ts = new Timestamp(time);
+        this.name = name;
+        this.weight = weight;
+        this.emmission = emmission;
+    }
 
     public String getName() {
         return name;
     }
 
-    public void setName(String name) {
+    /*public void setName(String name) {
         this.name = name;
     }
-
+    */
 
 
     public double getEmmision() {
-        return emmision;
+        return emmission;
     }
 
-    public void setEmmision(double emmision) {
-        this.emmision = emmision;
+    /*public void setEmmision(double emmision) {
+        this.emmission = emmision;
     }
-
+    */
     public double getWeight() {
         return weight;
     }
-
+    /*
     public void setWeight(double weight) {
         this.weight = weight;
     }
+    */
 
-    public Date getDate() {
+    /*public Date getDate() {
 
         return date;
     }
@@ -47,7 +54,7 @@ public class Entry implements  Comparable{
     public void setDate(Date mydate) {
         this.date = mydate;
     }
-
+    */
 
     public Timestamp getTs() {
         return ts;
@@ -62,8 +69,8 @@ public class Entry implements  Comparable{
 
     @Override
     public int hashCode(){
-        code = ts.hashCode();
-        return code;
+        return ts.hashCode();
+
     }
 
 }
