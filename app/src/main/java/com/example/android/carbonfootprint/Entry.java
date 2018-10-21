@@ -1,65 +1,56 @@
 package com.example.android.carbonfootprint;
 
+import android.arch.persistence.room.ColumnInfo;
+import android.arch.persistence.room.Entity;
+import android.arch.persistence.room.PrimaryKey;
+import android.support.annotation.NonNull;
+
 import java.util.Map;
 import java.util.Date;
 import java.sql.Timestamp;
-public class Entry implements  Comparable{
+
+@Entity(tableName = "entry_table")
+public class Entry implements Comparable{
+
+    @ColumnInfo(name="entry")
     private String name;
+
+    @ColumnInfo(name="weight")
     private double weight;
-    private double emmission;
+
+    @ColumnInfo(name="emission")
+    private double emission;
+
+    @PrimaryKey
+    @NonNull
+    @ColumnInfo(name="timestamp")
     private Timestamp ts;
 
 
-    public void entry(String name, double weight, double emmission){
+    public Entry(String name, double weight, double emission){
         Date date = new Date();
         long time = date.getTime();
         ts = new Timestamp(time);
         this.name = name;
         this.weight = weight;
-        this.emmission = emmission;
+        this.emission = emission;
     }
 
     public String getName() {
         return name;
     }
 
-    /*public void setName(String name) {
-        this.name = name;
-    }
-    */
-
-
-    public double getEmmision() {
-        return emmission;
+    public double getEmission() {
+        return emission;
     }
 
-    /*public void setEmmision(double emmision) {
-        this.emmission = emmision;
-    }
-    */
     public double getWeight() {
         return weight;
     }
-    /*
-    public void setWeight(double weight) {
-        this.weight = weight;
-    }
-    */
-
-    /*public Date getDate() {
-
-        return date;
-    }
-
-    public void setDate(Date mydate) {
-        this.date = mydate;
-    }
-    */
 
     public Timestamp getTs() {
         return ts;
     }
-
 
     @Override
     public int compareTo(Object o) {
@@ -70,7 +61,6 @@ public class Entry implements  Comparable{
     @Override
     public int hashCode(){
         return ts.hashCode();
-
     }
 
 }
