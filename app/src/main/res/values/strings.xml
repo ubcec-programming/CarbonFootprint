@@ -2,6 +2,9 @@
     <string name="app_name">CarbonFootprint</string>
     <string name="your_carbon_footprint">Your Carbon Footprint</string>
     <string name="title_activity_main2">Main2Activity</string>
+    <string name="type">Type of Food</string>
+    <string name="food">Food</string>
+    <string name="submit">submit</string>
     <string-array name = "food_types">
         <item>Meats</item>
         <item>Grains</item>

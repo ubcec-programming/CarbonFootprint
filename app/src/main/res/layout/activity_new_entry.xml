@@ -12,14 +12,14 @@ xmlns:android = "http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:textAlignment="center"
-        android:prompt="Food Type"/>
+        android:prompt="@string/type"/>
 
     <Spinner
         android:id="@+id/food"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:textAlignment="center"
-        android:prompt="Food" />
+        android:prompt="@string/food" />
 
 
     <EditText
@@ -36,6 +36,6 @@ xmlns:android = "http://schemas.android.com/apk/res/android"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:onClick="Submit"
-        android:text="submit" />
+        android:text="@string/submit" />
 
 </LinearLayout>

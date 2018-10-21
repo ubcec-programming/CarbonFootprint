@@ -8,7 +8,19 @@ import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.Spinner;
 
+import java.io.InputStream;
+import java.sql.Timestamp;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 public class NewEntry extends AppCompatActivity {
+    private Map<String, Integer> vegMap;
+    private Map<String, Integer> meatMap;
+    private Map<String, Integer> fruitMap;
+    private Map<String, Integer> grainMap;
+    private Map<String, Integer> seafoodMap;
+    private Map<String, Integer> dairyMap;
     EditText weight;
     Spinner food;
     Spinner type;
@@ -17,6 +29,59 @@ public class NewEntry extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_new_entry);
+
+        //creating all the maps
+        vegMap = new HashMap<>();
+        meatMap = new HashMap<>();
+        fruitMap =new HashMap<>();
+        grainMap = new HashMap<>();
+        seafoodMap = new HashMap<>();
+        dairyMap = new HashMap<>();
+        ArrayAdapter<CharSequence> adapter1;
+
+        InputStream vegStream = getResources().openRawResource(R.raw.vegetables);
+        CSVFile vegFile = new CSVFile(vegStream);
+
+        InputStream meatStream = getResources().openRawResource(R.raw.meat);
+        CSVFile meatFile = new CSVFile(meatStream);
+
+        InputStream fruitStream = getResources().openRawResource(R.raw.fruits);
+        CSVFile fruitFile = new CSVFile(fruitStream);
+
+        InputStream grainStream = getResources().openRawResource(R.raw.grains);
+        CSVFile grainFile = new CSVFile(grainStream);
+
+        InputStream seafoodStream = getResources().openRawResource(R.raw.seafood);
+        CSVFile seafoodFile = new CSVFile(seafoodStream);
+
+        InputStream dairyStream = getResources().openRawResource(R.raw.dairy);
+        CSVFile dairyFile = new CSVFile(dairyStream);
+
+        List vegList = vegFile.read();
+        List meatList = meatFile.read();
+        List fruitList = fruitFile.read();
+        List grainList = grainFile.read();
+        List seafoodList = seafoodFile.read();
+        List dairyList = dairyFile.read();
+
+        for(int i =0;i<vegList.size()-1;i++){
+            vegMap.put((String)vegList.get(i),Integer.parseInt((String)vegList.get(i++)));
+        }
+        for(int i =0;i<meatList.size()-1;i++){
+            meatMap.put((String)meatList.get(i),Integer.parseInt((String)meatList.get(i++)));
+        }
+        for(int i =0;i<fruitList.size()-1;i++){
+            fruitMap.put((String)fruitList.get(i),Integer.parseInt((String)fruitList.get(i++)));
+        }
+        for(int i =0;i<grainList.size()-1;i++){
+            grainMap.put((String)grainList.get(i),Integer.parseInt((String)grainList.get(i++)));
+        }
+        for(int i =0;i<seafoodList.size()-1;i++){
+            seafoodMap.put((String)seafoodList.get(i),Integer.parseInt((String)seafoodList.get(i++)));
+        }
+        for(int i =0;i<dairyList.size()-1;i++){
+            dairyMap.put((String)dairyList.get(i),Integer.parseInt((String)dairyList.get(i++)));
+        }
 
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
                 R.array.food_types, android.R.layout.simple_spinner_item);
@@ -28,48 +93,45 @@ public class NewEntry extends AppCompatActivity {
         type.setAdapter(adapter);
 
         if (type.getSelectedItem().toString().equals("Dairy")) {
-            ArrayAdapter<CharSequence> adapter1 = new ArrayAdapter<CharSequence>(this,
-                    android.R.layout.simple_spinner_item, dairy);
+            adapter1 = new ArrayAdapter<CharSequence>(this,
+                    android.R.layout.simple_spinner_item, dairyList);
             adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         } else if (type.getSelectedItem().toString().equals("Meats")) {
-            ArrayAdapter<CharSequence> adapter1 = new ArrayAdapter<CharSequence>(this,
-                    android.R.layout.simple_spinner_item, meats);
+            adapter1 = new ArrayAdapter<CharSequence>(this,
+                    android.R.layout.simple_spinner_item, meatList);
             adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         } else if (type.getSelectedItem().toString().equals("Vegetables")) {
-            ArrayAdapter<CharSequence> adapter1 = new ArrayAdapter<CharSequence>(this,
-                    android.R.layout.simple_spinner_item, dairy);
+            adapter1 = new ArrayAdapter<CharSequence>(this,
+                    android.R.layout.simple_spinner_item, vegList);
             adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        } else if (type.getSelectedItem().toString().equals("Dairy")) {
-            ArrayAdapter<CharSequence> adapter1 = new ArrayAdapter<CharSequence>(this,
-                    android.R.layout.simple_spinner_item, dairy);
+        } else if (type.getSelectedItem().toString().equals("Fruits")) {
+            adapter1 = new ArrayAdapter<CharSequence>(this,
+                    android.R.layout.simple_spinner_item, fruitList);
             adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        } else if (type.getSelectedItem().toString().equals("Dairy")) {
-            ArrayAdapter<CharSequence> adapter1 = new ArrayAdapter<CharSequence>(this,
-                    android.R.layout.simple_spinner_item, dairy);
+        } else  {
+            adapter1 = new ArrayAdapter<CharSequence>(this,
+                    android.R.layout.simple_spinner_item, seafoodList);
             adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-
-
+        }
         food = findViewById(R.id.food);
-        food.setAdapter();
+        food.setAdapter(adapter1);
 
     }
 
     //Send task back to main page
-    public void Submit(View view) {
+    public void Submit (View view) {
         Intent i = new Intent();
-        String name = type.getSelectedItem();
+        String name = type.getSelectedItem().toString();
+        Double gm = Double.parseDouble(weight.getText().toString());
+        Timestamp timestamp = new Timestamp(System.currentTimeMillis()/1000);
 
-        i.putExtra("Name", food);
-        i.putExtra("Day", day);
-        i.putExtra("Month",month);
-        i.putExtra("Year", year);
-        i.putExtra("Hour", hour);
-        i.putExtra("Minutes", minutes);
-        i.putExtra("Duration", duration);
-        i.putExtra("Rating", rating);
+        i.putExtra("Name", name);
+        i.putExtra("weight", gm);
+        i.putExtra("Timestamp",timestamp);
+
         setResult(RESULT_OK, i);
 
         finish();
     }
 }
-}
+
