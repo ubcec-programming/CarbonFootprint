@@ -14,13 +14,4 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
     }
 
-    public static void main(String [ ] args) {
-        Date mdate = new Date();
-        long time = mdate.getTime();
-        Timestamp ts = new Timestamp(time);
-
-        System.out.println(ts);
-        System.out.println(ts.hashCode());
-
-    }
 }
