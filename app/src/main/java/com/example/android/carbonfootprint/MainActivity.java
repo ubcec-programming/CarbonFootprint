@@ -11,10 +11,16 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import java.sql.Timestamp;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.io.InputStream;
+import java.util.Map;
 
 public class MainActivity extends AppCompatActivity {
+
+    private Map<String, Integer> vegMap;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -24,6 +30,17 @@ public class MainActivity extends AppCompatActivity {
         final WordListAdapter adapter = new WordListAdapter(this);
         recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
+
+        //creating all the maps
+        vegMap = new HashMap<>();
+
+        InputStream vegStream = getResources().openRawResource(R.raw.vegetables);
+        CSVFile vegFile = new CSVFile(vegStream);
+        List vegList = vegFile.read();
+
+        for(String item : vegList){
+
+        }
     }
 
 
