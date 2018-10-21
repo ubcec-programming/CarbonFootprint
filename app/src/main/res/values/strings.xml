@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">CarbonFootprint</string>
+    <string name="your_carbon_footprint">Your Carbon Footprint</string>
+    <string name="title_activity_main2">Main2Activity</string>
 </resources>
