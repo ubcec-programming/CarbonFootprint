@@ -4,12 +4,12 @@ import java.util.Map;
 import java.util.Date;
 import java.sql.Timestamp;
 public class Entry implements  Comparable{
+    private String name;
     private int code;
-    private Date date;
+    private Date date = new Date();
     private double weight;
     private double emmision;
-    private Date mdate = new Date();
-    private long time = mdate.getTime();
+    private long time = date.getTime();
     private Timestamp ts = new Timestamp(time);
 
 
@@ -21,7 +21,7 @@ public class Entry implements  Comparable{
         this.name = name;
     }
 
-    private String name;
+
 
     public double getEmmision() {
         return emmision;
@@ -62,7 +62,7 @@ public class Entry implements  Comparable{
 
     @Override
     public int hashCode(){
-        code = Integer.parseInt(name)+(int)time;
+        code = ts.hashCode();
         return code;
     }
 
