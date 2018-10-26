@@ -16,7 +16,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class NewEntry extends AppCompatActivity {
+public class NewEntry extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
     private Map<String, Double> vegMap;
     private Map<String, Double> meatMap;
     private Map<String, Double> fruitMap;
@@ -39,7 +39,6 @@ public class NewEntry extends AppCompatActivity {
         grainMap = new HashMap<>();
         seafoodMap = new HashMap<>();
         dairyMap = new HashMap<>();
-        ArrayAdapter<String> adapter1;
 
         InputStream vegStream = getResources().openRawResource(R.raw.vegetables);
         CSVFile vegFile = new CSVFile(vegStream);
@@ -93,37 +92,47 @@ public class NewEntry extends AppCompatActivity {
 
         type = findViewById(R.id.type);
         type.setAdapter(adapter);
+        type.setOnItemSelectedListener(this);
 
-        if (type.getSelectedItem().toString().equals("Dairy")) {
-            adapter1 = new ArrayAdapter<String>(this,
-                    android.R.layout.simple_spinner_item, new ArrayList<String>(dairyMap.keySet()));
-            adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        } else if (type.getSelectedItem().toString().equals("Meats")) {
-            adapter1 = new ArrayAdapter<String>(this,
-                    android.R.layout.simple_spinner_item, new ArrayList<String>(meatMap.keySet()));
-            adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        } else if (type.getSelectedItem().toString().equals("Vegetables")) {
-            adapter1 = new ArrayAdapter<String>(this,
-                    android.R.layout.simple_spinner_item, new ArrayList<String>(vegMap.keySet()));
-            adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        } else if (type.getSelectedItem().toString().equals("Fruits")) {
-            adapter1 = new ArrayAdapter<String>(this,
-                    android.R.layout.simple_spinner_item, new ArrayList<String>(fruitMap.keySet()));
-            adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        } else  {
-            adapter1 = new ArrayAdapter<String>(this,
-                    android.R.layout.simple_spinner_item, new ArrayList<String>(seafoodMap.keySet()));
-            adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        }
-        food = findViewById(R.id.food);
-        food.setAdapter(adapter1);
+
 
     }
 
+    @Override
     public void onItemSelected(AdapterView<?> parent, View view,
                                int pos, long id) {
-        // An item was selected. You can retrieve the selected item using
-        // parent.getItemAtPosition(pos)
+        ArrayAdapter<String> adapter1;
+        if (parent.getSelectedItem().toString().equals("Dairy")) {
+            adapter1 = new ArrayAdapter<String>(this,
+                    android.R.layout.simple_spinner_item, new ArrayList<String>(dairyMap.keySet()));
+            adapter1.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        } else if (parent.getSelectedItem().toString().equals("Meats")) {
+            adapter1 = new ArrayAdapter<String>(this,
+                    android.R.layout.simple_spinner_item, new ArrayList<String>(meatMap.keySet()));
+            adapter1.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        } else if (parent.getSelectedItem().toString().equals("Vegetables")) {
+            adapter1 = new ArrayAdapter<String>(this,
+                    android.R.layout.simple_spinner_item, new ArrayList<String>(vegMap.keySet()));
+            adapter1.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        } else if (parent.getSelectedItem().toString().equals("Fruits")) {
+            adapter1 = new ArrayAdapter<String>(this,
+                    android.R.layout.simple_spinner_item, new ArrayList<String>(fruitMap.keySet()));
+            adapter1.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        } else  {
+            adapter1 = new ArrayAdapter<String>(this,
+                    android.R.layout.simple_spinner_item, new ArrayList<String>(seafoodMap.keySet()));
+            adapter1.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        }
+        food = findViewById(R.id.food);
+        food.setAdapter(adapter1);
+    }
+
+    public void onNothingSelected(AdapterView<?> parent) {
+        ArrayAdapter<String> adapter1;
+        adapter1 = new ArrayAdapter<String>(this,
+                android.R.layout.simple_spinner_item, new ArrayList<String>(meatMap.keySet()));
+        adapter1.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        food.setAdapter(adapter1);
     }
 
     //Send task back to main page
