@@ -17,7 +17,7 @@ public interface EntryDao {
     @Query("DELETE FROM entry_table")
     void deleteAll();
 
-    @Query("SELECT * from entry_table ORDER BY entry ASC, timestamp ASC")
+    @Query("SELECT * from entry_table ORDER BY entry ASC, time ASC")
     LiveData<List<Entry>> getAllEntry();
 
     @Query ("DELETE FROM entry_table WHERE entry LIKE :entryName")

@@ -7,7 +7,6 @@ import android.support.annotation.NonNull;
 
 import java.util.Map;
 import java.util.Date;
-import java.sql.Timestamp;
 
 @Entity(tableName = "entry_table")
 public class Entry implements Comparable{
@@ -21,16 +20,31 @@ public class Entry implements Comparable{
     @ColumnInfo(name="emission")
     private double emission;
 
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public void setWeight(double weight) {
+        this.weight = weight;
+    }
+
+    public void setEmission(double emission) {
+        this.emission = emission;
+    }
+
+    public void setTime(long time) {
+        this.time = time;
+    }
+
     @PrimaryKey
     @NonNull
-    @ColumnInfo(name="timestamp")
-    private Timestamp ts;
+    @ColumnInfo(name="time")
+    private long time;
 
 
     public Entry(String name, double weight, double emission){
         Date date = new Date();
-        long time = date.getTime();
-        ts = new Timestamp(time);
+        this.time = date.getTime();
         this.name = name;
         this.weight = weight;
         this.emission = emission;
@@ -50,19 +64,19 @@ public class Entry implements Comparable{
         return weight;
     }
 
-    public Timestamp getTs() {
-        return ts;
+    public long getTime() {
+        return time;
     }
 
     @Override
     public int compareTo(Object o) {
             assert((o instanceof Map.Entry)); // it has to be the same type
-        return ts.compareTo((Timestamp) o);
+        return ((Long)time).compareTo(((Entry)o).getTime());
     }
 
     @Override
     public int hashCode(){
-        return ts.hashCode();
+        return name.hashCode();
     }
 
 }
